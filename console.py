@@ -11,6 +11,11 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+def is_float(string):
+    try:
+        return float(string) and '.' in string  # True if string is a number contains a dot
+    except ValueError:  # String is not a number
+        return False
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -115,13 +120,32 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        arguments = []
+        arguments = args.split()
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif arguments[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            print(len(arguments))
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[arguments[0]]()
+        length = len(arguments)
+        if length > 1:
+            del arguments[0]
+            x = 0
+            sub_argument = []
+            while x <= len(arguments) - 1:
+                sub_argument = arguments[x].split('=')
+                if (sub_argument[1][0] == '"' or "_" in sub_argument[1]):
+                    sub_argument[1] = sub_argument[1].replace("\"", "")
+                    sub_argument[1] = sub_argument[1].replace("_", " ")
+                if (sub_argument[1].isdigit()):
+                    int(sub_argument[1])
+                elif (is_float(sub_argument[1]) == True):
+                    float(sub_argument[1])
+                setattr(new_instance, sub_argument[0], sub_argument[1])
+                x += 1
         print(new_instance)
 
     def help_create(self):
