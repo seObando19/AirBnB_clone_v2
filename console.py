@@ -137,9 +137,9 @@ class HBNBCommand(cmd.Cmd):
             sub_argument = []
             while x <= len(arguments) - 1:
                 sub_argument = arguments[x].split('=')
-                if (sub_argument[1][0] == '"' or "_" in sub_argument[1]):
+                sub_argument[1] = sub_argument[1].replace("_", " ")
+                if (sub_argument[1][0] == '"'):
                     sub_argument[1] = sub_argument[1].replace("\"", "")
-                    sub_argument[1] = sub_argument[1].replace("_", " ")
                 if (sub_argument[1].isdigit()):
                     int(sub_argument[1])
                 elif (is_float(sub_argument[1]) == True):
