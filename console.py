@@ -13,11 +13,14 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+
 def is_float(string):
     try:
-        return float(string) and '.' in string  # True if string is a number contains a dot
+        # True if string is a number contains a dot
+        return float(string) and '.' in string
     except ValueError:  # String is not a number
         return False
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -26,10 +29,10 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
@@ -57,6 +60,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("add something")
         FileStorage.delete(args)
+
     def do_create(self, args):
         """ Create an object of any class"""
         arguments = []
@@ -80,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
                     sub_argument[1] = sub_argument[1].replace("\"", "")
                 if (sub_argument[1].isdigit()):
                     int(sub_argument[1])
-                elif (is_float(sub_argument[1]) == True):
+                elif (is_float(sub_argument[1])):
                     float(sub_argument[1])
                 setattr(new_instance, sub_argument[0], sub_argument[1])
                 x += 1
@@ -225,7 +229,8 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # first determine if kwargs or args
-        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
+        if '{' in args[2] and '}' in args[2] and isinstance(
+                eval(args[2]), dict):
             kwargs = eval(args[2])
             args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
             for k, v in kwargs.items():
@@ -280,6 +285,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
