@@ -146,6 +146,7 @@ class HBNBCommand(cmd.Cmd):
                     float(sub_argument[1])
                 setattr(new_instance, sub_argument[0], sub_argument[1])
                 x += 1
+        new_instance.save()
         print(new_instance)
 
     def help_create(self):
