@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
-import sys
+from models import storage
+from datetime import datetime
 from models.base_model import BaseModel
-from models.__init__ import storage
-
 from models.user import User
 from models.place import Place
-from models.engine.file_storage import FileStorage
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
