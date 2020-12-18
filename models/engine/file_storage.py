@@ -70,13 +70,12 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """ delete objects from __objects """
+        """ Remove object from a stored file """
 
         if obj is not None:
-            xd = obj.__class__.__name__ + "." + obj.id
-
-            if xd in self.__objects:
-                del self.__objects[xd]
+            temp = obj.__class__.__name__ + '.' + obj.id
+            FileStorage.__objects.pop(temp, None)
+            FileStorage.save(self)
 
     def close(self):
         """ close """
