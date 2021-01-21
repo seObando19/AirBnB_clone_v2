@@ -12,6 +12,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from os import getenv
 
+classes = {
+    'State': State,
+    'City': City,
+    'Place': Place,
+    'Amenity': Amenity,
+    'Review': Review,
+    'User': User
+}
 
 class DBStorage:
     """This class manages storage of hbnb models in db"""
@@ -36,8 +44,23 @@ class DBStorage:
 
     def all(self, cls=None):
         """ query on the current database session - optional, filter by cls"""
-
-        d = {}
+        queryList = []
+        queryDict = {}
+        if cls in classes:
+            obj = self.__session.query(classes[cls]).all()
+            for obj_ in obj:
+                key = "{}.{}".format(obj_.__class__.__name__, obj_.id)
+                value = obj_
+                queryDict[key] = value
+        elif cls is None:
+            for cls_ in classes:
+                obj = self.__session.query(classes[cls]).all()
+                for obj_ in obj:
+                    key = "{}.{}".format(obj_.__class__.__name__, obj_.id)
+                    value = obj_
+                    queryDict[key] = value
+        return queryDict
+        """ d = {}
 
         if cls:
             obj = self.__session.query(cls).all()
@@ -50,7 +73,7 @@ class DBStorage:
         for item in obj:
             k = type(item).__name__ + '.' + str(item.id)
             d[k] = item
-        return d
+        return d """
 
         """ dict_ = {}
 
